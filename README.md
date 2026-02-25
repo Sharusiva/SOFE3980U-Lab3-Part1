@@ -293,28 +293,36 @@ In this section, the MySQL image will be deployed over the GKE cluster using YAM
 
      ![create a new repo (2)](figures/d5.jpg)
 
-4. To create a docker image using the **Dockerfile**, run the following command after replacing **\<repo-path\>** with the repository path you already copied in the previous step.
+
+4. Grant GKE permission to pull images from Artifact Registry
+   ```
+   gcloud projects add-iam-policy-binding <your-project-id> ^
+     --member="serviceAccount:$(gcloud projects describe <your-project-id> --format='value(projectNumber)')-compute@developer.gserviceaccount.com" ^
+     --role="roles/artifactregistry.reader"
+   ```
+
+5. To create a docker image using the **Dockerfile**, run the following command after replacing **\<repo-path\>** with the repository path you already copied in the previous step.
    ```cmd
    cd ~/SOFE3980U-Lab3-Part1/BinaryCalculatorWebapp
    docker build -t <repo-path>/binarycalculator .
    ```
    
-5. To use the image globally, it should be pushed into the **sofe3980u** repository in the **Artifact registry**.
+6. To use the image globally, it should be pushed into the **sofe3980u** repository in the **Artifact registry**.
       ```cmd
       docker push <repo-path>/binarycalculator
       ```
       
-6. To deploy the image using GKE
+7. To deploy the image using GKE
    ```cmd
    kubectl create deployment binarycalculator-deployment --image <repo-path>/binarycalculator --port=8080 
    ```
 
-7. To assign an IP to the deployment
+8. To assign an IP to the deployment
    ```cmd
    kubectl expose deployment binarycalculator-deployment --type=LoadBalancer --name=binarycalculator-service 
    ```
    
-8. Get the IP associated with the service and access the application with that IP at port 8080 using the **http** protocol.
+9. Get the IP associated with the service and access the application with that IP at port 8080 using the **http** protocol.
 
 ## Discussion:
 1. Briefly summarize what you have learned about docker and Kubernetes, including their terminologies and descriptions.
