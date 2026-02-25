@@ -295,6 +295,7 @@ In this section, the MySQL image will be deployed over the GKE cluster using YAM
 
 4. To create a docker image using the **Dockerfile**, run the following command after replacing **\<repo-path\>** with the repository path you already copied in the previous step.
    ```cmd
+   cd ~/SOFE3980U-Lab3-Part1/BinaryCalculatorWebapp
    docker build -t <repo-path>/binarycalculator .
    ```
    
